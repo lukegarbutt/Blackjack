@@ -73,7 +73,7 @@ class dealer():
 		self.cards = []
 
 	def initialise_hand(self):
-		dealer.dealers_hand = hand("Dealer")
+		self.dealers_hand = hand("Dealer")
 
 	def dealer_twist(self, deck):
 		self.dealers_hand.draw_to_hand(deck)
