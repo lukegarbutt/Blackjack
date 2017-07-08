@@ -2,10 +2,13 @@
 import random
 
 def main(): # this function will call our individual modules probably on a loop to play blackjack
-	deck1 = deck() # list of 52 card objects, all unique suit and value
-	deck1.shuffle() # deck method that will shuffle the cards
-	number_of_players = 1
-	initialise_game(number_of_players)
+	deck_of_cards = deck() # list of 52 card objects, all unique suit and value
+	deck_of_cards.shuffle() # deck method that will shuffle the cards
+	number_of_players = 3
+	list_of_players, dealer = initialise_game(number_of_players, deck_of_cards)
+	print("Dealer has cards {} of {} and {} of {}.".format(dealer.cards[0].value, dealer.cards[0].suit, dealer.cards[1].value, dealer.cards[1].suit))
+	for i in list_of_players:
+		print("{} has cards {} of {} and {} of {}.".format(i.name, i.cards[0].value, i.cards[0].suit, i.cards[1].value, i.cards[1].suit))
 
 # create deck class
 
@@ -56,6 +59,14 @@ class card():
 
 # create player class
 
+class player():
+	def __init__(self, name):
+		self.cards = []
+		self.name = name
+
+	def player_hit(self, deck):
+		self.cards.append(deck.draw_card())
+
 # create hand class
 class hand():
 	def __init__(self, person):
@@ -65,18 +76,15 @@ class hand():
 	def draw_to_hand(self, deck):
 		self.cards.append(deck.draw_card())
 
-
 # create dealer class
 
 class dealer():
 	def __init__(self):
 		self.cards = []
+		self.name = "Dealer"
 
-	def initialise_hand(self):
-		self.dealers_hand = hand("Dealer")
-
-	def dealer_twist(self, deck):
-		self.dealers_hand.draw_to_hand(deck)
+	def dealer_hit(self, deck):
+		self.cards.append(deck.draw_card())
 
 	def dealer_turn(self, dealers_hand):
 		while(True):
@@ -90,12 +98,19 @@ class dealer():
 					score += card_score
 			break
 
-def initialise_game(number_of_players):
+def initialise_game(number_of_players, deck):
+	list_of_players = []
 	for i in range(number_of_players):
-		pass # initialise the players hands similar to the dealers one
-	# deal each player 1 card
-	# deal dealer 1 card
-	# repeat above two lines
+		player_str = "Player_" + str(i+1)
+		list_of_players.append(player(player_str))
+	dealer_obj = dealer()
+	for i in list_of_players: # deal each player 1 card
+		i.player_hit(deck)
+	dealer_obj.dealer_hit(deck) # deal dealer 1 card
+	for i in list_of_players: # repeat above two lines
+		i.player_hit(deck)
+	dealer_obj.dealer_hit(deck)
+	return(list_of_players, dealer_obj)
 
 if __name__ == '__main__':
 	main()
