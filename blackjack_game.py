@@ -4,9 +4,24 @@ import random
 def main(): # this function will call our individual modules probably on a loop to play blackjack
 	deck1 = deck() # list of 52 card objects, all unique suit and value
 	deck1.shuffle() # deck method that will shuffle the cards
-	for i in range(52):
-		card = deck1.draw_card()
-		print(card.suit, card.value)
+	# for i in range(52):
+	# 	card = deck1.draw_card()
+	# 	print(card.suit, card.value)
+
+	Players_hand = hand("Player")
+	Dealers_hand = hand("Dealer")
+
+	Players_hand.draw_to_hand(deck1)
+	Players_hand.draw_to_hand(deck1)
+	Dealers_hand.draw_to_hand(deck1)
+	Dealers_hand.draw_to_hand(deck1)
+
+	print(Players_hand.cards)
+	for i in Players_hand.cards:
+		print(i.suit, i.value)
+	print(Dealers_hand.cards)
+	for i in Dealers_hand.cards:
+		print(i.suit, i.value)
 
 # create deck class
 
@@ -47,6 +62,20 @@ class card():
 # create game rules and conditions
 
 # create player class
+
+# create hand class
+class hand():
+	def __init__(self, person):
+		self.person = person
+		self.cards = []
+
+	def draw_to_hand(self, deck):
+		card1 = deck.draw_card()
+		self.cards.append(card1)
+
+
+
+
 
 # create dealer class
 
