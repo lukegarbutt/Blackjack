@@ -4,8 +4,9 @@ import random
 def main(): # this function will call our individual modules probably on a loop to play blackjack
 	deck1 = deck() # list of 52 card objects, all unique suit and value
 	print(deck1.list_of_cards)
-	deck1.shuffle() # deck method that will shuffle the cards
-	print(deck1.list_of_cards[1])
+	#deck1.shuffle() # deck method that will shuffle the cards
+	for i in deck1.list_of_cards:
+		print(i.value, i.suit)
 
 # create deck class
 
@@ -14,11 +15,11 @@ class deck():
 		self.add_cards()
 
 	def shuffle(self):
-		self.list_of_cards = random.shuffle(self.list_of_cards)
+		random.shuffle(self.list_of_cards)
 
 	def add_cards(self):
 		self.list_of_cards = []
-		for i in range(1, 53):
+		for i in range(52):
 			self.list_of_cards.append(card(i))
 		
 
