@@ -1,5 +1,6 @@
 # main file             S C H D
 import random
+import time
 
 def main(): # this function will call our individual modules probably on a loop to play blackjack
 	deck_of_cards = deck() # list of 52 card objects, all unique suit and value
@@ -9,7 +10,7 @@ def main(): # this function will call our individual modules probably on a loop 
 	print("Dealer has cards {} of {} and {} of {}.".format(dealer.cards[0].value, dealer.cards[0].suit, dealer.cards[1].value, dealer.cards[1].suit))
 	for i in list_of_players:
 		print("{} has cards {} of {} and {} of {}.".format(i.name, i.cards[0].value, i.cards[0].suit, i.cards[1].value, i.cards[1].suit))
-	dealer.dealer_turn(dealer.cards, deck_of_cards)
+	dealer.dealer_turn(deck_of_cards)
 
 # create deck class
 
@@ -80,30 +81,36 @@ class dealer():
 	def dealer_hit(self, deck):
 		self.cards.append(deck.draw_card())
 
-	def dealer_turn(self, dealers_hand, deck):
+	def dealer_turn(self, deck):
+		dealer_bust = False
 		while(True):
+			time.sleep(0.1)
+			if dealer_bust:
+				break
 			score = 0
 			ace_count = 0
-			for card in dealers_hand:
+			for card in self.cards:
 				card_score = card.card_score()
 				if card_score == 'Ace':
 					ace_count += 1
 					score += 11
 				else:
 					score += card_score
-			if card_score < 17:
-				print(deck)
-				dealer.dealer_hit(deck)
-			elif card_score < 22:
-				print('Dealer stands on {} with cards --to be filled in later--'.format(card_score))
-			else:
-				while(card_score > 21):
+			if score > 22:
+				while(score > 21):
 					if ace_count == 0:
-						print('Dealer bust at {}'.format(card_score))
+						print('Dealer bust at {}'.format(score))
+						dealer_bust = True
 						break
 					else:
 						ace_count -= 1
-						card_score -= 10
+						score -= 10
+			if score < 17:
+				self.dealer_hit(deck)
+				print('Dealer drew the {} of {}'.format(self.cards[-1].value, self.cards[-1].suit))
+			else:
+				print('Dealer stands on {} with cards --to be filled in later--'.format(score))
+				break
 
 def initialise_game(number_of_players, deck):
 	list_of_players = []
@@ -120,4 +127,6 @@ def initialise_game(number_of_players, deck):
 	return(list_of_players, dealer_obj)
 
 if __name__ == '__main__':
-	main()
+	for i in range(10):
+		main()
+		print()
