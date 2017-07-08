@@ -44,11 +44,42 @@ class card():
 		id = id%13
 		self.value = values[id]
 
+	def card_score(self):
+		try:
+			return(int(card.value))
+		except:
+			if card.value == 'Jack' or card.value == 'Queen' or card.value == 'King':
+				return(10)
+			elif card.value == 'Ace':
+				return('Ace')
+
 # create game rules and conditions
 
 # create player class
 
 # create dealer class
+
+class dealer():
+	def __init__(self):
+		self.cards = []
+
+	def add_dealer_card(self, card):
+		self.cards.append(card)
+
+	def dealer_turn(self):
+		while(True):
+			score = 0
+			ace_count = 0
+			for i in self.cards:
+				card_score = i.card_score()
+				if card_score == 'Ace':
+					ace_count += 1
+				else:
+					score += card_score
+			if ace_count != 0:
+				if score > 21:
+					print('Dealer went bust')
+
 
 
 if __name__ == '__main__':
