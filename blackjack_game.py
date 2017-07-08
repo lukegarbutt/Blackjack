@@ -75,8 +75,8 @@ class dealer():
 	def initialise_hand(self):
 		dealer.dealers_hand = hand("Dealer")
 
-	def dealer_twist(self, deck, dealers_hand):
-		dealer.dealers_hand.draw_to_hand(deck)
+	def dealer_twist(self, deck):
+		self.dealers_hand.draw_to_hand(deck)
 
 	def dealer_turn(self, dealers_hand):
 		while(True):
