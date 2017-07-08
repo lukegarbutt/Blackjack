@@ -8,20 +8,24 @@ def main(): # this function will call our individual modules probably on a loop 
 	# 	card = deck1.draw_card()
 	# 	print(card.suit, card.value)
 
-	Players_hand = hand("Player")
-	Dealers_hand = hand("Dealer")
+	# Players_hand = hand("Player")
+	# Dealers_hand = hand("Dealer")
+    #
+	# Players_hand.draw_to_hand(deck1)
+	# Players_hand.draw_to_hand(deck1)
+	# Dealers_hand.draw_to_hand(deck1)
+	# Dealers_hand.draw_to_hand(deck1)
+    #
+	# print(Players_hand.cards)
+	# for i in Players_hand.cards:
+	# 	print(i.suit, i.value)
+	# print(Dealers_hand.cards)
+	# for i in Dealers_hand.cards:
+	# 	print(i.suit, i.value)
+	dhand = dealer.starting_hand(deck1)
+	dealer.dealer_turn(dhand)
 
-	Players_hand.draw_to_hand(deck1)
-	Players_hand.draw_to_hand(deck1)
-	Dealers_hand.draw_to_hand(deck1)
-	Dealers_hand.draw_to_hand(deck1)
 
-	print(Players_hand.cards)
-	for i in Players_hand.cards:
-		print(i.suit, i.value)
-	print(Dealers_hand.cards)
-	for i in Dealers_hand.cards:
-		print(i.suit, i.value)
 
 # create deck class
 
@@ -81,21 +85,28 @@ class hand():
 	def draw_to_hand(self, deck):
 		self.cards.append(deck.draw_card())
 
+
 # create dealer class
 
 class dealer():
 	def __init__(self):
 		self.cards = []
 
-	def add_dealer_card(self, deck):
-		self.cards.append(deck.draw_card())
+	def starting_hand(self, deck):
+		dealers_hand = hand("Dealer")
+		dealers_hand.draw_to_hand(deck)
+		dealers_hand.draw_to_hand(deck)
+		return dealers_hand
 
-	def dealer_turn(self):
+	def dealer_twist(self, deck, dealers_hand):
+		dealers_hand = dealers_hand.draw_to_hand(deck)
+
+	def dealer_turn(self, dealers_hand):
 		while(True):
 			score = 0
 			ace_count = 0
-			for i in self.cards:
-				card_score = i.card_score()
+			for card in dealers_hand:
+				card_score = card.card_score()
 				if card_score == 'Ace':
 					ace_count += 1
 				else:
