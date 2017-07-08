@@ -4,28 +4,8 @@ import random
 def main(): # this function will call our individual modules probably on a loop to play blackjack
 	deck1 = deck() # list of 52 card objects, all unique suit and value
 	deck1.shuffle() # deck method that will shuffle the cards
-	# for i in range(52):
-	# 	card = deck1.draw_card()
-	# 	print(card.suit, card.value)
-
-	# Players_hand = hand("Player")
-	# Dealers_hand = hand("Dealer")
-    #
-	# Players_hand.draw_to_hand(deck1)
-	# Players_hand.draw_to_hand(deck1)
-	# Dealers_hand.draw_to_hand(deck1)
-	# Dealers_hand.draw_to_hand(deck1)
-    #
-	# print(Players_hand.cards)
-	# for i in Players_hand.cards:
-	# 	print(i.suit, i.value)
-	# print(Dealers_hand.cards)
-	# for i in Dealers_hand.cards:
-	# 	print(i.suit, i.value)
-	dhand = dealer.starting_hand(deck1)
-	dealer.dealer_turn(dhand)
-
-
+	number_of_players = 1
+	initialise_game(number_of_players)
 
 # create deck class
 
@@ -92,14 +72,11 @@ class dealer():
 	def __init__(self):
 		self.cards = []
 
-	def starting_hand(self, deck):
-		dealers_hand = hand("Dealer")
-		dealers_hand.draw_to_hand(deck)
-		dealers_hand.draw_to_hand(deck)
-		return dealers_hand
+	def initialise_hand(self):
+		dealer.dealers_hand = hand("Dealer")
 
 	def dealer_twist(self, deck, dealers_hand):
-		dealers_hand = dealers_hand.draw_to_hand(deck)
+		dealer.dealers_hand.draw_to_hand(deck)
 
 	def dealer_turn(self, dealers_hand):
 		while(True):
@@ -111,11 +88,14 @@ class dealer():
 					ace_count += 1
 				else:
 					score += card_score
-			if ace_count != 0:
-				if score > 21:
-					print('Dealer went bust')
+			break
 
-
+def initialise_game(number_of_players):
+	for i in range(number_of_players):
+		pass # initialise the players hands similar to the dealers one
+	# deal each player 1 card
+	# deal dealer 1 card
+	# repeat above two lines
 
 if __name__ == '__main__':
 	main()
