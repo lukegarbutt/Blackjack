@@ -9,6 +9,7 @@ def main(): # this function will call our individual modules probably on a loop 
 	print("Dealer has cards {} of {} and {} of {}.".format(dealer.cards[0].value, dealer.cards[0].suit, dealer.cards[1].value, dealer.cards[1].suit))
 	for i in list_of_players:
 		print("{} has cards {} of {} and {} of {}.".format(i.name, i.cards[0].value, i.cards[0].suit, i.cards[1].value, i.cards[1].suit))
+	dealer.dealer_turn(dealer.cards, deck_of_cards)
 
 # create deck class
 
@@ -48,11 +49,11 @@ class card():
 
 	def card_score(self):
 		try:
-			return(int(card.value))
+			return(int(self.value))
 		except:
-			if card.value == 'Jack' or card.value == 'Queen' or card.value == 'King':
+			if self.value == 'Jack' or self.value == 'Queen' or self.value == 'King':
 				return(10)
-			elif card.value == 'Ace':
+			elif self.value == 'Ace':
 				return('Ace')
 
 # create game rules and conditions
@@ -68,13 +69,6 @@ class player():
 		self.cards.append(deck.draw_card())
 
 # create hand class
-class hand():
-	def __init__(self, person):
-		self.person = person
-		self.cards = []
-
-	def draw_to_hand(self, deck):
-		self.cards.append(deck.draw_card())
 
 # create dealer class
 
@@ -86,7 +80,7 @@ class dealer():
 	def dealer_hit(self, deck):
 		self.cards.append(deck.draw_card())
 
-	def dealer_turn(self, dealers_hand):
+	def dealer_turn(self, dealers_hand, deck):
 		while(True):
 			score = 0
 			ace_count = 0
@@ -94,9 +88,22 @@ class dealer():
 				card_score = card.card_score()
 				if card_score == 'Ace':
 					ace_count += 1
+					score += 11
 				else:
 					score += card_score
-			break
+			if card_score < 17:
+				print(deck)
+				dealer.dealer_hit(deck)
+			elif card_score < 22:
+				print('Dealer stands on {} with cards --to be filled in later--'.format(card_score))
+			else:
+				while(card_score > 21):
+					if ace_count == 0:
+						print('Dealer bust at {}'.format(card_score))
+						break
+					else:
+						ace_count -= 1
+						card_score -= 10
 
 def initialise_game(number_of_players, deck):
 	list_of_players = []
