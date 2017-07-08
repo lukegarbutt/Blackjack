@@ -79,12 +79,7 @@ class hand():
 		self.cards = []
 
 	def draw_to_hand(self, deck):
-		card1 = deck.draw_card()
-		self.cards.append(card1)
-
-
-
-
+		self.cards.append(deck.draw_card())
 
 # create dealer class
 
@@ -92,8 +87,8 @@ class dealer():
 	def __init__(self):
 		self.cards = []
 
-	def add_dealer_card(self, card):
-		self.cards.append(card)
+	def add_dealer_card(self, deck):
+		self.cards.append(deck.draw_card())
 
 	def dealer_turn(self):
 		while(True):
