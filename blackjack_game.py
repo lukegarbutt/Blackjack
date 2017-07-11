@@ -7,10 +7,10 @@ def main(): # this function will call our individual modules probably on a loop 
 	deck_of_cards.shuffle() # deck method that will shuffle the cards
 	number_of_players = 3
 	list_of_players, dealer = initialise_game(number_of_players, deck_of_cards)
-	print("Dealer has cards {} of {} and {} of {}.".format(dealer.cards[0].value, dealer.cards[0].suit, dealer.cards[1].value, dealer.cards[1].suit))
-	for i in list_of_players:
-		print("{} has cards {} of {} and {} of {}.".format(i.name, i.cards[0].value, i.cards[0].suit, i.cards[1].value, i.cards[1].suit))
-	dealer.dealer_turn(deck_of_cards)
+	#print("Dealer has cards {} of {} and {} of {}.".format(dealer.cards[0].value, dealer.cards[0].suit, dealer.cards[1].value, dealer.cards[1].suit))
+	#for i in list_of_players:
+		#print("{} has cards {} of {} and {} of {}.".format(i.name, i.cards[0].value, i.cards[0].suit, i.cards[1].value, i.cards[1].suit))
+	return(dealer.dealer_turn(deck_of_cards))
 
 # create deck class
 
@@ -82,11 +82,7 @@ class dealer():
 		self.cards.append(deck.draw_card())
 
 	def dealer_turn(self, deck):
-		dealer_bust = False
 		while(True):
-			time.sleep(0.1)
-			if dealer_bust:
-				break
 			score = 0
 			ace_count = 0
 			for card in self.cards:
@@ -99,18 +95,17 @@ class dealer():
 			if score > 22:
 				while(score > 21):
 					if ace_count == 0:
-						print('Dealer bust at {}'.format(score))
-						dealer_bust = True
-						break
+						#print('Dealer bust at {}'.format(score))
+						return('Bust')
 					else:
 						ace_count -= 1
 						score -= 10
 			if score < 17:
 				self.dealer_hit(deck)
-				print('Dealer drew the {} of {}'.format(self.cards[-1].value, self.cards[-1].suit))
+				#print('Dealer drew the {} of {}'.format(self.cards[-1].value, self.cards[-1].suit))
 			else:
-				print('Dealer stands on {} with cards --to be filled in later--'.format(score))
-				break
+				#print('Dealer stands on {} with cards --to be filled in later--'.format(score))
+				return(score)
 
 def initialise_game(number_of_players, deck):
 	list_of_players = []
@@ -127,6 +122,15 @@ def initialise_game(number_of_players, deck):
 	return(list_of_players, dealer_obj)
 
 if __name__ == '__main__':
-	for i in range(10):
-		main()
-		print()
+	list_of_results = []
+	for i in range(100000):
+		list_of_results.append(main())
+		#print()
+	count = 0
+	for i in list_of_results:
+		if i == 'Bust':
+			count += 1
+	if count == 0:
+		print("Dealer didn't bust at all")
+	else:
+		print('Dealer bust {0:.2%} of the time'.format(count/len(list_of_results)))
