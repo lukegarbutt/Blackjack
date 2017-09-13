@@ -92,7 +92,7 @@ class dealer():
 					score += 11
 				else:
 					score += card_score
-			if score > 22:
+			if score > 21:
 				while(score > 21):
 					if ace_count == 0:
 						#print('Dealer bust at {}'.format(score))
@@ -121,6 +121,7 @@ def initialise_game(number_of_players, deck):
 	dealer_obj.dealer_hit(deck)
 	return(list_of_players, dealer_obj)
 
+start_time = time.time()
 if __name__ == '__main__':
 	list_of_results = []
 	for i in range(100000):
@@ -130,7 +131,14 @@ if __name__ == '__main__':
 	for i in list_of_results:
 		if i == 'Bust':
 			count += 1
+	#print(list_of_results)
 	if count == 0:
 		print("Dealer didn't bust at all")
 	else:
 		print('Dealer bust {0:.2%} of the time'.format(count/len(list_of_results)))
+	count_22 = 0
+	for i in list_of_results:
+		if i == 22:
+			count_22 += 1
+	print('we found {} wrong 22s'.format(count_22))
+print('time taken was {} seconds'.format(time.time()-start_time))
